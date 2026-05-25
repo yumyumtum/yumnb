@@ -101,7 +101,22 @@ tts:
 #   s3:my-bucket/yumnb       AWS S3 / Cloudflare R2 / MinIO
 #   dropbox:yumnb            Dropbox
 upload:
-  provider: none           # none | rclone
+  provider: none           # none | rclone | onedrive_graph
+  # ── onedrive_graph: reuse tommy-talkshow's onedrive_upload.py ─────────
+  # Uploads via Edge SSO (no rclone, no client secret) to OneDrive for
+  # Business / SharePoint and returns an org sharing link. Requires the
+  # companion `tommy-talkshow` skill to be installed locally.
+  onedrive_graph:
+    # Absolute path to tommy-talkshow's onedrive_upload.py.
+    # Supports ~ and ${ENV} expansion. Leave unset to disable this provider.
+    # Example (Windows / Linux / macOS):
+    #   uploader_path: ~/.copilot/skills/tommy-talkshow/scripts/onedrive_upload.py
+    uploader_path: ""
+    folder: yumnb             # remote folder name under your OneDrive root
+    per_note_subfolder: true  # upload to <folder>/<note-slug>/<file>
+    # base_url: optional SharePoint site base URL override (e.g.
+    #   https://contoso-my.sharepoint.com/personal/<user>_contoso_com)
+    base_url: ""
   rclone:
     remote: ""             # e.g. "onedrive:yumnb"
     rclone_bin: rclone     # path to the rclone binary

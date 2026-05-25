@@ -26,13 +26,6 @@ from typing import Dict, List, Optional, Tuple
 
 DEFAULT_FILES = ["talkshow.mp3", "deck.pptx", "summary.md"]
 
-# Bundled fallback path to tommy-talkshow's OneDrive uploader. Override via
-# upload.onedrive_graph.uploader_path in config.yaml.
-_DEFAULT_ONEDRIVE_UPLOADER = (
-    Path.home() / ".copilot" / "skills" / "tommy-talkshow"
-    / "scripts" / "onedrive_upload.py"
-)
-
 
 def _onedrive_graph_upload(folder: Path, cfg: Dict, files: List[str],
                            label_map: Dict[str, str]) -> Dict[str, str]:
@@ -43,7 +36,12 @@ def _onedrive_graph_upload(folder: Path, cfg: Dict, files: List[str],
     and re-attaching to Edge each time).
     """
     sub = cfg.get("onedrive_graph") or {}
-    uploader_path = Path(sub.get("uploader_path") or _DEFAULT_ONEDRIVE_UPLOADER)
+    uploader_setting = sub.get("uploader_path")
+    if not uploader_setting:
+        print("upload [onedrive_graph] SKIP — set upload.onedrive_graph.uploader_path "
+              "in config.yaml (path to tommy-talkshow/scripts/onedrive_upload.py)")
+        return {}
+    uploader_path = Path(os.path.expandvars(os.path.expanduser(str(uploader_setting))))
     base_url = sub.get("base_url") or None
     base_folder = (sub.get("folder") or "yumnb").strip("/")
     per_note = bool(sub.get("per_note_subfolder", True))
