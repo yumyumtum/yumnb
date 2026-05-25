@@ -1,6 +1,6 @@
 ---
 name: yumnb
-description: "Yum NoteBook — a local-first NotebookLM alternative for AI agents, built for real source capture. Ingest a web URL, YouTube video, or screenshot, then generate (1) AI summary, (2) dual-host talk-show MP3 (edge-tts), (3) slide deck (image/table/bullet/flowchart) and optionally upload artifacts to OneDrive/Google Drive/S3/etc. and post a notification to Slack/Discord/Teams. Language and cloud destination are user-configurable; defaults to English with male+female English hosts. Use when: yumnb, study notes, summarize this link, turn this video into notes, help me understand this article."
+description: "Yum NoteBook — a local-first NotebookLM alternative for AI agents, built for real source capture. Ingest a web URL, YouTube video, or screenshot, then generate multi-language outputs: (1) AI summary, (2) dual-host talk-show MP3 (edge-tts), (3) slide deck (image/table/bullet/flowchart) and optionally upload artifacts to OneDrive/Google Drive/S3/etc. and post a notification to Slack/Discord/Teams. Language and cloud destination are user-configurable; defaults to English with male+female English hosts. Use when: yumnb, study notes, summarize this link, turn this video into notes, help me understand this article."
 argument-hint: "URL | YouTube link | path to screenshot (and optional --title / --language)"
 ---
 
@@ -18,6 +18,9 @@ request** under `<output_dir>/<YYYYMMDD-HHMM-slug>/` containing:
 3. **`talkshow.txt` + `talkshow.mp3`** — dual-host script + MP3 (edge-tts)
 4. **`deck.pptx`** — slide deck (bullets, tables, flow, images, summary)
 5. **`links.json`** — record of what was generated and any share links
+
+The same source can be rendered into different output languages, so agents can
+produce localized notes, audio, and slides from one captured notebook folder.
 
 This “one request = one folder” model is intentional: many such folders can
 accumulate into a local knowledge base that can be read, searched, narrated,
