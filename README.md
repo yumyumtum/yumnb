@@ -4,6 +4,8 @@
 [![ClawHub](https://img.shields.io/badge/ClawHub-yumnb-blue)](https://clawhub.ai/skills/yumnb)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
+> **A local-first NotebookLM alternative for AI agents, built for real source capture.**
+>
 > Turn any URL, YouTube video, screenshot, or chunk of text into a tidy
 > learning packet: **AI summary + dual-host talk-show MP3 + slide deck**,
 > with optional webhook notification and direct IM delivery via OpenClaw / Hermes.

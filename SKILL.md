@@ -1,10 +1,12 @@
 ---
 name: yumnb
-description: "Yum NoteBook — ingest a web URL, YouTube video, or screenshot, then generate (1) AI summary, (2) dual-host talk-show MP3 (edge-tts), (3) slide deck (image/table/bullet/flowchart) and optionally upload artifacts to OneDrive/Google Drive/S3/etc. and post a notification to Slack/Discord/Teams. Language and cloud destination are user-configurable; defaults to English with male+female English hosts. Use when: yumnb, study notes, summarize this link, turn this video into notes, help me understand this article."
+description: "Yum NoteBook — a local-first NotebookLM alternative for AI agents, built for real source capture. Ingest a web URL, YouTube video, or screenshot, then generate (1) AI summary, (2) dual-host talk-show MP3 (edge-tts), (3) slide deck (image/table/bullet/flowchart) and optionally upload artifacts to OneDrive/Google Drive/S3/etc. and post a notification to Slack/Discord/Teams. Language and cloud destination are user-configurable; defaults to English with male+female English hosts. Use when: yumnb, study notes, summarize this link, turn this video into notes, help me understand this article."
 argument-hint: "URL | YouTube link | path to screenshot (and optional --title / --language)"
 ---
 
 # Yum NoteBook (yumnb) — Source → Summary + Talk-show + Slides
+
+> **A local-first NotebookLM alternative for AI agents, built for real source capture.**
 
 ## What It Does
 
