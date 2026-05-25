@@ -32,6 +32,11 @@ PPTX you can drop into a meeting — all under one folder. It's the same
 workflow whether your AI is a hosted API, a local model, or an interactive
 agent CLI.
 
+The core storage model is simple: **one user request = one notebook folder**.
+That folder holds the source material plus everything generated from it. Over
+time, many such folders naturally become a local knowledge base you can read,
+search, narrate, present, version, and reuse.
+
 If you like the idea of NotebookLM but want a more local-first, file-based
 workflow, yumnb is a good fit. It is not trying to copy NotebookLM exactly;
 it is a polite alternative for people who prefer to keep their notebooks,
@@ -48,6 +53,19 @@ source material, and generated artifacts on their own machine by default.
 | Push outward later | optional upload / notify / OpenClaw-Hermes delivery |
 
 ## Output artifacts
+
+Each request gets its own timestamped folder, for example:
+
+```text
+output/yumnb/20260525-1242-top-1-opportunity-for-senior/
+├── source/
+├── summary.md
+├── talkshow.txt
+├── talkshow.mp3
+├── deck.json
+├── deck.pptx
+└── links.json
+```
 
 | File | Purpose |
 | --- | --- |

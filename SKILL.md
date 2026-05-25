@@ -8,14 +8,18 @@ argument-hint: "URL | YouTube link | path to screenshot (and optional --title / 
 
 ## What It Does
 
-Given a source (URL / YouTube / screenshot / raw text), creates one folder per
-item under `<output_dir>/<YYYYMMDD-HHMM-slug>/` containing:
+Given a source (URL / YouTube / screenshot / raw text), creates **one folder per
+request** under `<output_dir>/<YYYYMMDD-HHMM-slug>/` containing:
 
 1. **`source/`** — raw material (downloaded HTML, transcript, screenshot copy …)
 2. **`summary.md`** — AI summary (one-liner / key points / facts / takeaways)
 3. **`talkshow.txt` + `talkshow.mp3`** — dual-host script + MP3 (edge-tts)
 4. **`deck.pptx`** — slide deck (bullets, tables, flow, images, summary)
 5. **`links.json`** — record of what was generated and any share links
+
+This “one request = one folder” model is intentional: many such folders can
+accumulate into a local knowledge base that can be read, searched, narrated,
+and presented later.
 
 If a webhook is configured, a notification is posted to Slack / Discord /
 Teams Workflow. If `deliver.provider` is configured, yumnb can also push the
