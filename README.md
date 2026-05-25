@@ -10,29 +10,24 @@
 
 ```mermaid
 flowchart TD
-    A[URL / YouTube / image / text] --> B[ingest]
-    B --> C[source/ raw HTML / transcript / image copy]
-    C --> D[summary.md]
-    D --> E[talkshow.txt]
-    E --> F[talkshow.mp3]
-    D --> G[deck.json]
-    G --> H[deck.pptx]
-    F --> I[publish]
-    H --> I
-    D --> I
-    I --> J[links.json + optional upload / notify / deliver]
+    A[You give yumnb a URL / YouTube link / screenshot / text] --> B[yumnb creates one notebook folder]
+    B --> C[Files are stored under output/yumnb/YYYYMMDD-HHMM-slug/]
+    C --> D[source/ keeps the raw material]
+    C --> E[summary.md keeps the written notes]
+    C --> F[talkshow.txt + talkshow.mp3 keep the spoken recap]
+    C --> G[deck.json + deck.pptx keep the showable slides]
+    C --> H[links.json records what was generated]
+    H --> I[Optional: upload / notify / deliver only if you enable them]
 ```
 
 ## Why
 
-LLMs are great at digesting one thing at a time but never put the result
-where you can find it again. yumnb produces a **filesystem-first** artifact
-per source — Markdown summary, an MP3 you can listen to in the car, and a
-PPTX you can drop into a meeting — all under one folder. It's the same
-workflow whether your AI is a hosted API, a local model, or an interactive
-agent CLI.
+LLMs are great at digesting one thing at a time but rarely leave behind a
+clean, reusable notebook. yumnb fixes that by turning each request into a
+**filesystem-first notebook folder** with notes, audio, slides, and a small
+manifest.
 
-The core storage model is simple: **one user request = one notebook folder**.
+The core model is simple: **one user request = one notebook folder**.
 That folder holds the source material plus everything generated from it. Over
 time, many such folders naturally become a local knowledge base you can read,
 search, narrate, present, version, and reuse.
@@ -41,6 +36,37 @@ If you like the idea of NotebookLM but want a more local-first, file-based
 workflow, yumnb is a good fit. It is not trying to copy NotebookLM exactly;
 it is a polite alternative for people who prefer to keep their notebooks,
 source material, and generated artifacts on their own machine by default.
+
+## How people use yumnb
+
+Usually an AI agent runs yumnb for you.
+
+You point the agent at a source — for example a YouTube link, an article, a
+screenshot, or a block of text — and yumnb turns that into a notebook folder
+under your chosen `output_dir`.
+
+A typical path looks like:
+
+```text
+output/yumnb/20260525-1242-top-1-opportunity-for-senior/
+```
+
+Inside that folder you get the source material, the written notebook, the
+spoken recap, and the slide deck.
+
+## Privacy / data handling
+
+By default, yumnb is local-first:
+
+- it only works on sources you explicitly give it
+- it stores notebooks as normal local files under your chosen output folder
+- it does **not** upload, sync, notify, or deliver anything unless you
+  explicitly enable those features in config
+- it does **not** need a hosted notebook service to keep your notes organized
+
+If you enable an external AI provider, TTS service, cloud upload, webhook, or
+OpenClaw/Hermes delivery, then those specific integrations will be used. But
+that is opt-in, not the default behavior.
 
 ## At a glance
 
@@ -52,7 +78,7 @@ source material, and generated artifacts on their own machine by default.
 | Keep everything inspectable | normal local files under one folder |
 | Push outward later | optional upload / notify / OpenClaw-Hermes delivery |
 
-## Output artifacts
+## What gets created
 
 Each request gets its own timestamped folder, for example:
 
@@ -67,15 +93,15 @@ output/yumnb/20260525-1242-top-1-opportunity-for-senior/
 └── links.json
 ```
 
-| File | Purpose |
+| File | What it is |
 | --- | --- |
-| `source/` | Raw material: transcript, HTML, thumbnail, image copy |
-| `summary.md` | Main notebook summary |
-| `talkshow.txt` | Two-host script for narration |
-| `talkshow.mp3` | Rendered dual-voice audio |
-| `deck.json` | Editable slide plan |
-| `deck.pptx` | Final PowerPoint deck |
-| `links.json` | Final manifest of local/cloud/delivery outputs |
+| `source/` | The raw material yumnb pulled from the source |
+| `summary.md` | The written notebook |
+| `talkshow.txt` | The script for the spoken recap |
+| `talkshow.mp3` | The rendered audio recap |
+| `deck.json` | The editable slide plan |
+| `deck.pptx` | The final PowerPoint deck |
+| `links.json` | A manifest of what was generated and where it lives |
 
 ## Features
 
@@ -180,17 +206,6 @@ In practice, yumnb may be a good fit when you want to:
 
 So the positioning is not “NotebookLM, but better at everything.”
 It is more like: **a quieter, more local, more hackable alternative for people who prefer owning the workflow**.
-
-## Smoke tests
-
-After bootstrap:
-
-```bash
-. .venv/bin/activate
-pytest tests/test_smoke.py
-```
-
-These tests intentionally avoid external AI/network assumptions for the core smoke path.
 
 ## AI providers
 
