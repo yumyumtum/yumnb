@@ -121,6 +121,22 @@ python -m yumnb publish notes/<slug>
 The `SKILL.md` in this repo is a drop-in skill descriptor for agent CLIs
 that load skill folders (e.g., Copilot CLI's `~/.copilot/skills/`).
 
+## yumnb vs NotebookLM
+
+A short version:
+
+- **NotebookLM** is great if you want a polished hosted notebook experience.
+- **yumnb** is better if you want a **local-first, file-based workflow** you can script, inspect, version, and extend.
+
+In practice, yumnb may be a good fit when you want to:
+- keep source material, notebooks, summaries, slides, and audio as normal local files
+- plug the workflow into your own agent / CLI / automation stack
+- choose your own AI backend instead of being tied to one hosted product
+- control when anything gets uploaded or delivered
+
+So the positioning is not “NotebookLM, but better at everything.”
+It is more like: **a quieter, more local, more hackable alternative for people who prefer owning the workflow**.
+
 ## Smoke tests
 
 After bootstrap:
