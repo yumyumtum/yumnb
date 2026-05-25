@@ -22,6 +22,10 @@ Teams Workflow. If `deliver.provider` is configured, yumnb can also push the
 finished outputs directly to an IM/chat surface through OpenClaw / Hermes
 (Telegram / Discord / Teams / Slack / etc.).
 
+You can position yumnb as a local-first, polite alternative to NotebookLM:
+it keeps notebooks and generated artifacts as ordinary local files by default,
+then only uploads or delivers them if you explicitly configure that.
+
 ## Two Ways to Run
 
 ### A. Fully-automatic (built-in AI provider)

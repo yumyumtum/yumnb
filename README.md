@@ -28,6 +28,11 @@ PPTX you can drop into a meeting — all under one folder. It's the same
 workflow whether your AI is a hosted API, a local model, or an interactive
 agent CLI.
 
+If you like the idea of NotebookLM but want a more local-first, file-based
+workflow, yumnb is a good fit. It is not trying to copy NotebookLM exactly;
+it is a polite alternative for people who prefer to keep their notebooks,
+source material, and generated artifacts on their own machine by default.
+
 ## Features
 
 - **YouTube ingest** with proper subtitle handling — tries each language
@@ -45,6 +50,9 @@ agent CLI.
   generated intro/outro chime — voices are configurable per persona.
 - **Real PPT** via `python-pptx` — title, bullets, table, horizontal flow,
   image, two-column, summary. WEBP/AVIF/HEIC auto-converted via Pillow.
+- **Local-first notebooks.** Sources, summaries, scripts, slides, and links
+  live as normal files under your chosen output directory, so your notebooks
+  stay on your machine unless you explicitly enable upload / notify / deliver.
 - **No hardcoded paths, tenants, webhooks, or org info.** Configure
   everything via `config.yaml` or environment variables.
 
