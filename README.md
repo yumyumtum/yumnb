@@ -24,6 +24,11 @@ clean, reusable notebook. yumnb fixes that by turning each request into a
 **filesystem-first notebook folder** with notes, audio, slides, and a small
 manifest.
 
+A big part of that is **reliable source extraction**. A notebook workflow is
+only as good as the source it can actually pull in. yumnb puts real effort
+into getting the source material locally first, instead of assuming every web
+page or YouTube URL will behave nicely.
+
 The core model is simple: **one user request = one notebook folder**.
 That folder holds the source material plus everything generated from it. Over
 time, many such folders naturally become a local knowledge base you can read,
@@ -50,6 +55,29 @@ output/yumnb/20260525-1242-top-1-opportunity-for-senior/
 
 Inside that folder you get the source material, the written notebook, the
 spoken recap, and the slide deck.
+
+## Source extraction matters
+
+A lot of notebook-style tools look great until the source fetch fails.
+That is especially common with:
+
+- web pages that return thin HTML, partial HTML, or JS-heavy shells
+- pages with light blocking / anti-bot behavior
+- YouTube videos where transcript availability is inconsistent
+
+`yumnb` is designed to be more stubborn about source capture:
+
+- for **YouTube**, it tries manual subtitles first, then auto subtitles, then
+  `youtube-transcript-api`, then finally falls back to description-only if it
+  has to
+- for **web pages**, it extracts readable text locally and also lets you plug
+  in your own fetcher when plain requests is not enough
+- the extracted source is kept in the notebook folder, so you can inspect what
+  was actually captured instead of guessing what the tool saw
+
+That matters because even strong hosted notebook products can fail on perfectly
+reasonable web URLs. yumnb’s goal is not to promise magic, but to make source
+extraction **more transparent, more recoverable, and less fragile**.
 
 ## Privacy / data handling
 
@@ -200,6 +228,7 @@ In practice, yumnb may be a good fit when you want to:
 - plug the workflow into your own agent / CLI / automation stack
 - choose your own AI backend instead of being tied to one hosted product
 - control when anything gets uploaded or delivered
+- have a more transparent and fallback-friendly source extraction path for web pages and YouTube URLs
 
 So the positioning is not “NotebookLM, but better at everything.”
 It is more like: **a quieter, more local, more hackable alternative for people who prefer owning the workflow**.
