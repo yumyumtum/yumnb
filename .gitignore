@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# yumnb config / runtime
+config.yaml
+config.local.yaml
+*.env
+.env
+
+# Output (default notes folder)
+notes/
+output/
+*.mp3
+*.pptx
+*.wav
+_tts_seg_*.mp3
+_jingle_*.mp3
+_jingle_*.wav
+*_concat.txt
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.idea/
+.vscode/
+*.swp
