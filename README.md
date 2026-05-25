@@ -1,22 +1,26 @@
 # yumnb — Yum NoteBook
 
+[![GitHub Release](https://img.shields.io/github/v/release/yumyumtum/yumnb?display_name=tag)](https://github.com/yumyumtum/yumnb/releases)
+[![ClawHub](https://img.shields.io/badge/ClawHub-yumnb-blue)](https://clawhub.ai/skills/yumnb)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 > Turn any URL, YouTube video, screenshot, or chunk of text into a tidy
 > learning packet: **AI summary + dual-host talk-show MP3 + slide deck**,
 > with optional webhook notification and direct IM delivery via OpenClaw / Hermes.
 
-```
-URL / YouTube / image / text
-            │
-            ▼
-       ingest  ──►  source/   raw HTML / VTT transcript / image copy
-            │
-            ▼
-        AI summary   summary.md
-            │
-            ├──► tts          talkshow.mp3   (edge-tts dual voice + jingle)
-            ├──► ppt          deck.pptx      (bullets / tables / flow / images)
-            ▼
-        publish      links.json  + optional webhook
+```mermaid
+flowchart TD
+    A[URL / YouTube / image / text] --> B[ingest]
+    B --> C[source/ raw HTML / transcript / image copy]
+    C --> D[summary.md]
+    D --> E[talkshow.txt]
+    E --> F[talkshow.mp3]
+    D --> G[deck.json]
+    G --> H[deck.pptx]
+    F --> I[publish]
+    H --> I
+    D --> I
+    I --> J[links.json + optional upload / notify / deliver]
 ```
 
 ## Why
@@ -32,6 +36,28 @@ If you like the idea of NotebookLM but want a more local-first, file-based
 workflow, yumnb is a good fit. It is not trying to copy NotebookLM exactly;
 it is a polite alternative for people who prefer to keep their notebooks,
 source material, and generated artifacts on their own machine by default.
+
+## At a glance
+
+| If you want to… | yumnb gives you… |
+| --- | --- |
+| Turn a video/article into study notes | `summary.md` |
+| Get an audio recap | `talkshow.txt` + `talkshow.mp3` |
+| Drop the result into a meeting | `deck.json` + `deck.pptx` |
+| Keep everything inspectable | normal local files under one folder |
+| Push outward later | optional upload / notify / OpenClaw-Hermes delivery |
+
+## Output artifacts
+
+| File | Purpose |
+| --- | --- |
+| `source/` | Raw material: transcript, HTML, thumbnail, image copy |
+| `summary.md` | Main notebook summary |
+| `talkshow.txt` | Two-host script for narration |
+| `talkshow.mp3` | Rendered dual-voice audio |
+| `deck.json` | Editable slide plan |
+| `deck.pptx` | Final PowerPoint deck |
+| `links.json` | Final manifest of local/cloud/delivery outputs |
 
 ## Features
 
