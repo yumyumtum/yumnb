@@ -2,7 +2,7 @@
 
 > Turn any URL, YouTube video, screenshot, or chunk of text into a tidy
 > learning packet: **AI summary + dual-host talk-show MP3 + slide deck**,
-> with optional Slack / Discord / Teams notification.
+> with optional webhook notification and direct IM delivery via OpenClaw / Hermes.
 
 ```
 URL / YouTube / image / text
@@ -31,8 +31,9 @@ agent CLI.
 ## Features
 
 - **YouTube ingest** with proper subtitle handling — tries each language
-  one-by-one (zh-Hans → zh → en …), manual subs first, then auto-generated;
-  parses VTT properly (strips inline timing tags, dedupes repeated lines).
+  one-by-one (zh-Hans → zh → en …), manual subs first, then auto-generated,
+  then falls back to `youtube-transcript-api`; parses VTT properly (strips
+  inline timing tags, dedupes repeated lines).
 - **Web ingest** with stdlib-only HTML stripping (BeautifulSoup used if
   installed). Falls back gracefully on 403/JS pages — you can plug in your
   own browser-fetch script via the `--fetcher` flag.
@@ -52,6 +53,16 @@ agent CLI.
 ```bash
 git clone https://github.com/<you>/yumnb
 cd yumnb
+./scripts/bootstrap.sh
+
+# then
+cp config.example.yaml config.yaml
+$EDITOR config.yaml
+```
+
+Manual alternative:
+
+```bash
 python -m venv .venv && . .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
@@ -102,6 +113,17 @@ python -m yumnb publish notes/<slug>
 The `SKILL.md` in this repo is a drop-in skill descriptor for agent CLIs
 that load skill folders (e.g., Copilot CLI's `~/.copilot/skills/`).
 
+## Smoke tests
+
+After bootstrap:
+
+```bash
+. .venv/bin/activate
+pytest tests/test_smoke.py
+```
+
+These tests intentionally avoid external AI/network assumptions for the core smoke path.
+
 ## AI providers
 
 | `provider` | Required pkg            | Required env / config        |
@@ -119,6 +141,8 @@ use `provider: openai` and set `ai.openai.base_url`.
 **CLI provider** — yumnb pipes the prompt to stdin of the configured
 command and reads the answer from stdout. Useful when you have a local
 agent that already knows how to call tools / browse / search.
+
+If `auto` mode fails because the configured AI backend is not ready, yumnb now prints a human-readable fix list instead of a low-level stack trace.
 
 ## TTS voices
 
@@ -179,8 +203,35 @@ and works on Windows / macOS / Linux.
 ## Notification webhook
 
 `notify.webhook_url` posts a small JSON payload after `publish`. Built-in
-payload styles: `slack`, `discord`, `teams_workflow`, `generic`. Roll your
-own by editing `scripts/notify.py` — it's ~80 lines.
+payload styles: `slack`, `discord`, `teams_workflow`, `generic`.
+
+## Direct delivery (OpenClaw / Hermes)
+
+If you want `yumnb` to do more than generate files, configure `deliver` in
+`config.yaml`. This uses the local `openclaw message send` bridge, so the
+same delivery path can target Telegram, Discord, Slack, Microsoft Teams,
+and other channels OpenClaw/Hermes supports.
+
+Example:
+
+```yaml
+deliver:
+  provider: openclaw   # alias: hermes
+  openclaw:
+    channel: discord
+    target: "123456789012345678"
+    send_text: true
+    send_files: true
+  files: [talkshow.mp3, deck.pptx]
+```
+
+Switching surfaces is just a config change, e.g.:
+- `channel: telegram`
+- `channel: discord`
+- `channel: slack`
+- `channel: msteams`
+
+So yumnb's skill code is not Telegram-specific.
 
 ## Privacy
 
@@ -192,6 +243,7 @@ calls are:
 - `requests` to whatever URL you ingest.
 - `edge-tts` to Microsoft's online voice endpoint (skip with `tts.enabled: false`).
 - Your configured `notify.webhook_url`, if set.
+- Your configured OpenClaw / Hermes delivery bridge, if `deliver.provider` is enabled.
 
 No telemetry, no usage reporting. Read `scripts/*.py` — it's <1500 lines.
 

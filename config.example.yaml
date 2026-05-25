@@ -18,7 +18,8 @@ ai:
   #   - "none" / unset: skill only does ingest/tts/ppt mechanics; you (or
   #     another agent like Copilot CLI / Claude Code) write summary.md and
   #     deck.json by hand.
-  provider: openai
+  # Default is `none` so first-run never hard-fails just because API keys are missing.
+  provider: none
 
   # ── openai (also works with Azure OpenAI + any OpenAI-compatible API) ──
   openai:
@@ -134,3 +135,33 @@ notify:
   # Pick a payload style matching your destination.
   # Options: slack | discord | teams_workflow | generic
   style: generic
+
+# ── Direct delivery to IM / chat surfaces (optional) ──────────────────────
+# This is separate from `notify` webhooks.
+#
+# Use this when you want yumnb itself to push outputs into a chat/channel via
+# the local OpenClaw / Hermes bridge, instead of only writing files / links.
+#
+# Supported provider today:
+#   - openclaw  (alias: hermes)
+#
+# Because the underlying bridge is channel-aware, the SAME yumnb config shape
+# can target Telegram, Discord, Slack, Microsoft Teams, etc. by changing only
+# `channel` + `target`.
+deliver:
+  provider: none          # none | openclaw | hermes
+  openclaw:
+    binary: openclaw
+    channel: ""          # telegram | discord | slack | msteams | ...
+    target: ""           # chat id / channel id / user id depending on channel
+    account: ""
+    reply_to: ""
+    thread_id: ""
+    silent: false
+    force_document: false
+    captions: true
+    send_text: true       # send a summary text message
+    send_files: true      # send selected local artifacts as media/files
+    dry_run: false
+    timeout_seconds: 120
+  files: [talkshow.mp3, deck.pptx]

@@ -18,7 +18,9 @@ item under `<output_dir>/<YYYYMMDD-HHMM-slug>/` containing:
 5. **`links.json`** — record of what was generated and any share links
 
 If a webhook is configured, a notification is posted to Slack / Discord /
-Teams Workflow.
+Teams Workflow. If `deliver.provider` is configured, yumnb can also push the
+finished outputs directly to an IM/chat surface through OpenClaw / Hermes
+(Telegram / Discord / Teams / Slack / etc.).
 
 ## Two Ways to Run
 
@@ -54,7 +56,7 @@ python -m yumnb tts "<folder>/talkshow.txt" --output "<folder>/talkshow.mp3"
 # 4) Render PPT from a deck.json the agent wrote
 python -m yumnb ppt "<folder>/deck.json" --output "<folder>/deck.pptx"
 
-# 5) Finalize + optional webhook notification
+# 5) Finalize + optional webhook / IM delivery
 python -m yumnb publish "<folder>"
 ```
 
@@ -116,7 +118,8 @@ configured in `config.yaml` → `tts.voices`. Example:
 ## Prerequisites
 
 - Python 3.9+
-- `pip install -r requirements.txt`
+- Preferred first-run: `./scripts/bootstrap.sh`
+- Or manual: `pip install -r requirements.txt`
 - Plus the AI SDK matching your provider (only one): `openai` / `anthropic` /
   `google-generativeai` / `ollama` — or none if you use `provider: cli` /
   `none`.
@@ -126,9 +129,15 @@ configured in `config.yaml` → `tts.voices`. Example:
 - `edge-tts` uses Microsoft's free online voices. No API key required.
 - The intro/outro jingle is generated procedurally in pure Python — no
   external assets bundled.
+- YouTube ingest order is: yt-dlp manual subtitles → yt-dlp auto subtitles →
+  `youtube-transcript-api` fallback → description-only fallback.
 - This skill carries no platform/tenant/organization-specific defaults.
   All endpoints and credentials come from `config.yaml` or environment
   variables (`YUMNB_*`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, etc.).
+- Direct IM delivery is channel-agnostic: configure `deliver.provider:
+  openclaw` (or `hermes`) plus `deliver.openclaw.channel` + `target` to send
+  the finished note to Telegram, Discord, Teams, Slack, and other supported
+  surfaces via the local bridge.
 
 ## Language
 
