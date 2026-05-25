@@ -9,15 +9,12 @@
 > with optional webhook notification and direct IM delivery via OpenClaw / Hermes.
 
 ```mermaid
-flowchart TD
-    A[You give yumnb a URL / YouTube link / screenshot / text] --> B[yumnb creates one notebook folder]
-    B --> C[Files are stored under output/yumnb/YYYYMMDD-HHMM-slug/]
-    C --> D[source/ keeps the raw material]
-    C --> E[summary.md keeps the written notes]
-    C --> F[talkshow.txt + talkshow.mp3 keep the spoken recap]
-    C --> G[deck.json + deck.pptx keep the showable slides]
-    C --> H[links.json records what was generated]
-    H --> I[Optional: upload / notify / deliver only if you enable them]
+flowchart LR
+    A[Start with a source] --> B[Create one notebook folder]
+    B --> C[Read it]
+    B --> D[Listen to it]
+    B --> E[Present it]
+    B --> F[Optional delivery]
 ```
 
 ## Why
@@ -41,7 +38,7 @@ source material, and generated artifacts on their own machine by default.
 
 Usually an AI agent runs yumnb for you.
 
-You point the agent at a source — for example a YouTube link, an article, a
+You start with a source — for example a YouTube link, an article, a
 screenshot, or a block of text — and yumnb turns that into a notebook folder
 under your chosen `output_dir`.
 
